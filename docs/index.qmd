@@ -16,18 +16,18 @@ El propósito principal de este curso es servir como una guía que permita a los
 
 [Clase 2](Clase2.html)
 
-Clase 3:
+[Clase 3](Clase3.html)
 
-Clase 4:
+[Clase 4](Clase4.html)
 
-Clase 5:
+[Clase 5](Clase5.html)
 
-Clase 6:
+[Clase 6](Clase6.html)
 
-Clase 7:
+[Clase 7](Clase7.html)
 
-Clase 8:
+[Clase 8](Clase8.html)
 
-Clase 9:
+[Clase 9](Clase9.html)
 
-Clase 10:
+[Clase 10](Clase10.html)
