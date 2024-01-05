@@ -94,26 +94,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="quarto" class="level2">
-<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
+<p>En esta clase, nos adentraremos en las estimaciones de captura-recaptura mediante RMark. Para utilizar este paquete, será necesario instalar previamente el <a href="http://www.phidot.org/software/mark/background/">programa MARK</a>. Durante el curso, se enseñará detalladamente tanto la instalación como el uso de este paquete.</p>
+<p>Esta sección se encarga de instalar el paquete RMark necesario para nuestras evaluaciones.</p>
+<section id="instalar-y-carga-del-paquete" class="level4">
+<h4 class="anchored" data-anchor-id="instalar-y-carga-del-paquete">Instalar y Carga del paquete</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"RMark"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RMark)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'RMark' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is RMark 3.0.0
+ Documentation available at http://www.phidot.org/software/mark/rmark/RMarkDocumentation.zip</code></pre>
+</div>
+</div>
+<p>Aquí se importa la base de datos “example.txt” para su uso en nuestros análisis. En la clase utilizaremos base de datos reales y caso de estudios reales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reid <span class="ot">&lt;-</span> <span class="fu">import.chdata</span>(<span class="st">"data/example.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="running-code" class="level2">
-<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
+<section id="visualización-de-los-primeros-datos" class="level4">
+<h4 class="anchored" data-anchor-id="visualización-de-los-primeros-datos">Visualización de los primeros datos</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(reid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>    ch    sex weight
+1 0011 Female   2.96
+2 0010 Female   3.09
+3 0010 Female   3.14
+4 0010 Female   3.23
+5 0011 Female   3.47
+6 0011 Female    3.5</code></pre>
 </div>
 </div>
-<p>You can add options to executable code like this</p>
+</section>
+<section id="ejecución-del-modelo" class="level4">
+<h4 class="anchored" data-anchor-id="ejecución-del-modelo">Ejecución del modelo</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>f0 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">formula=</span><span class="sc">~</span><span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">mark</span>(reid, <span class="at">model=</span><span class="st">"Closed"</span>, <span class="at">model.parameters=</span><span class="fu">list</span>(<span class="at">p=</span>f0, <span class="at">c=</span>f0))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>
+Output summary for Closed model
+Name : p(~1)c(~1)f0(~1) 
+
+Npar :  3
+-2lnL:  -3391.001
+AICc :  -3384.991
+
+Beta
+                 estimate        se        lcl        ucl
+p:(Intercept)  -0.6422980 0.1139675 -0.8656743 -0.4189217
+c:(Intercept)   0.6410908 0.0607266  0.5220666  0.7601150
+f0:(Intercept)  4.9062121 0.2156520  4.4835341  5.3288900
+
+
+Real Parameter p
+         1         2         3         4
+ 0.3447273 0.3447273 0.3447273 0.3447273
+
+
+Real Parameter c
+     2     3     4
+ 0.655 0.655 0.655
+
+
+Real Parameter f0
+        1
+ 135.1266</code></pre>
 </div>
 </div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<p>Esta sección ejecuta el modelo para realizar el análisis de captura-recaptura.</p>
+<p>Durante el curso, se cubrirán todos los detalles, desde la creación de la base de datos hasta la interpretación de los resultados.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">HN Biology Investigation Academy</figcaption>
+</figure>
+</div>
 </section>
 
 </main>

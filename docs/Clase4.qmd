@@ -4,23 +4,41 @@ format: html
 editor: visual
 ---
 
-## Quarto
+En esta clase, nos adentraremos en las estimaciones de captura-recaptura mediante RMark. Para utilizar este paquete, será necesario instalar previamente el [programa MARK](http://www.phidot.org/software/mark/background/). Durante el curso, se enseñará detalladamente tanto la instalación como el uso de este paquete.
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Esta sección se encarga de instalar el paquete RMark necesario para nuestras evaluaciones.
 
-## Running Code
+#### Instalar y Carga del paquete
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
+```{r, eval=FALSE}
+install.packages("RMark")
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+library(RMark)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+Aquí se importa la base de datos "example.txt" para su uso en nuestros análisis. En la clase utilizaremos base de datos reales y caso de estudios reales.
+
+```{r}
+reid <- import.chdata("data/example.txt")
+```
+
+#### Visualización de los primeros datos
+
+```{r}
+head(reid)
+```
+
+#### Ejecución del modelo
+
+```{r}
+f0 <- list(formula=~1)
+mb <- mark(reid, model="Closed", model.parameters=list(p=f0, c=f0))
+```
+
+Esta sección ejecuta el modelo para realizar el análisis de captura-recaptura.
+
+Durante el curso, se cubrirán todos los detalles, desde la creación de la base de datos hasta la interpretación de los resultados.
+
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
