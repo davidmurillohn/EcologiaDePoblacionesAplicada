@@ -1,0 +1,33 @@
+---
+title: "Curso Ecologia de Poblaciones Aplicada"
+format: html
+editor: visual
+---
+
+## Introduccion
+
+Este curso está diseñado para estudiantes y profesionales en áreas relacionadas con la Ecología, Conservación y Manejo de Recursos, entre otras disciplinas afines.
+
+El propósito principal de este curso es servir como una guía que permita a los estudiantes desarrollar, interpretar e implementar técnicas de análisis de datos centradas en la Ecología de Poblaciones.
+
+## Contenido
+
+Clase 1:
+
+Clase 2:
+
+Clase 3:
+
+Clase 4:
+
+Clase 5:
+
+Clase 6:
+
+Clase 7:
+
+Clase 8:
+
+Clase 9:
+
+Clase 10:
