@@ -12,7 +12,7 @@ El propósito principal de este curso es servir como una guía que permita a los
 
 ## Contenido
 
-Clase 1:
+[Clase 1](Clase1.htlm)
 
 Clase 2:
 
