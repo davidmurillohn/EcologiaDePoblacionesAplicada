@@ -12,22 +12,22 @@ El propósito principal de este curso es servir como una guía que permita a los
 
 ## Contenido
 
-[Clase 1](Clase1.html)
+[Clase 1- Introducción al curso](Clase1.html)
 
-[Clase 2](Clase2.html)
+[Clase 2- Crecimiento poblacional y regulación de las poblaciones](Clase2.html)
 
-[Clase 3](Clase3.html)
+[Clase 3- Estimadores de abundancia y tamaño poblacional](Clase3.html)
 
-[Clase 4](Clase4.html)
+[Clase 4- Uso de Rmark: Captura-Recaptura](Clase4.html)
 
-[Clase 5](Clase5.html)
+[Clase 5- Uso de Rmark: Surpervivencia de nido](Clase5.html)
 
-[Clase 6](Clase6.html)
+[Clase 6- Uso de Distance: Abundancia por conteo por puntos y transectos](Clase6.html)
 
-[Clase 7](Clase7.html)
+[Clase 7- Uso de Unmarked: Estimación de abundancia por conteo por puntos](Clase7.html)
 
-[Clase 8](Clase8.html)
+[Clase 8- Uso de Unmarked: Estimación de abundancia por transecto](Clase8.html)
 
-[Clase 9](Clase9.html)
+[Clase 9- Introducción a spAbundance](Clase9.html)
 
-[Clase 10](Clase10.html)
+[Clase 10- Metapoblaciones, estructura espacial y Análisis de viablidad poblacional](Clase10.html)
