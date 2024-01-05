@@ -4,9 +4,23 @@ format: html
 editor: visual
 ---
 
-## Quarto
+La segunda sesión estará más orientada a la teoría que a la práctica, abordando conceptos clave utilizados en Ecología.
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Para esta clase nos basaremos en: [Applied Population Ecology Principles and Computer Exercises using RAMAS EcoLab Second Edition](https://www.nhbs.com/applied-population-ecology-book)
 
-## Running Code
+## Temas
 
+### Crecimiento Poblacional
+
+- Definición de población.
+- Límites de supervivencia y reproducción: Nicho y Hábitat.
+- Modelos matemáticos en Ecología de Poblaciones.
+- Natalidad, Mortalidad, Inmigración y Emigración.
+- Crecimiento Poblacional.
+
+### Regulación de Poblaciones
+
+- Efecto de aglomeración (crowding).
+- Tipos de dependencia de la densidad.
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
