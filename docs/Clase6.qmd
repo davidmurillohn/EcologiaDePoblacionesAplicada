@@ -1,10 +1,42 @@
 ---
-title: "Clase6"
+title: "Clase 6: Uso de Distance"
 format: html
 editor: visual
 ---
 
 
-En preparacion...
+En esta clase, aprenderemos a emplear Distance para ajustar modelos de abundancia.
+
+
+El paquete Distance en R es una herramienta poderosa para analizar datos de conteos por puntos y transectos en estudios de abundancia de especies. Permite modelar la relación entre la detección de especies y la distancia desde un punto o línea de transecto, considerando la probabilidad de detección a diferentes distancias. Con diversas funciones y métodos estadísticos, este paquete facilita la estimación de abundancia, densidad y otros parámetros clave en la ecología de poblaciones, ayudando a comprender mejor la distribución y el tamaño de las poblaciones de especies.
+
+Para empezar, necesitamos cargar el paquete Distance
+
+```{r}
+library(Distance)
+```
+
+
+Vamos a cargar la base de datos ya formateada, la cual se basa en la metodología de transecto por línea. Esta base incluye el registro de la distancia a cada individuo observado.
+
+```{r}
+data(book.tee.data)
+tee.data <- subset(book.tee.data$book.tee.dataframe, observer==1)
+```
+
+Vamos a ajustar el modelo basado en la metodología de transectos, utilizando la distancia de observación de cada individuo.
+
+```{r}
+ds.model <- ds(tee.data, 4)
+```
+
+Ahora, podemos revisar los resultados y generar un gráfico que muestre la detección.
+
+```{r}
+summary(ds.model)
+plot(ds.model)
+```
+
+En el curso se explorarán diversos tipos de modelos, se aprenderá a seleccionar el más adecuado, se abordará su interpretación y se analizará su aplicación en casos reales.
 
 ![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)

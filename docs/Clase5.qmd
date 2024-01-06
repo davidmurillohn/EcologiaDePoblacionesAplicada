@@ -1,9 +1,80 @@
 ---
-title: "Clase5"
+title: "Clase 5: Supervivencia de nido"
 format: html
 editor: visual
 ---
 
-En preparacion...
+La supervivencia de nidos es un área clave en la ecología de las aves. En términos generales, se mide la probabilidad de que un nido con huevos o crías llegue a producir individuos voladores. El enfoque de Manfield es un método simple que considera la proporción de nidos que tienen éxito.
+
+Por otro lado, el enfoque RMark para la supervivencia de nidos implica modelos más sofisticados, utilizando técnicas estadísticas avanzadas para tener en cuenta variables específicas como el momento de la temporada, el efecto del depredador, la ubicación del nido, entre otros factores. Este método permite análisis detallados y precisos de la supervivencia de los nidos. 
+
+Para esta clase utilizaremos el paquete Rmark
+
+```{r}
+library(RMark)
+```
+
+Necesitamos también cargar una base de datos que esté correctamente formateada para su uso.
+
+```{r}
+data(mallard)
+```
+
+
+En ocasiones, será necesario realizar una preparación inicial de nuestros datos antes de proceder.
+
+```{r}
+mallard$habitat <- ifelse(mallard$Native == 1, "Native",
+                         ifelse(mallard$Planted == 1, "Planted",
+                                ifelse(mallard$Roadside == 1, "Roadside",
+                                       "Wetland")))
+```
+
+También será necesario ajustar la base de datos para que esté en un formato compatible con RMark.
+
+```{r}
+mallard.pr <- process.data(mallard,
+                          nocc=90,
+                          model="Nest",
+                          groups=("habitat"))
+```
+
+Por último, podremos emplear un modelo.
+
+```{r, results='hide', warning=FALSE}
+
+Model1 <- mark(data= mallard.pr, model= "Nest",
+              model.parameters = list(S= list(formula = Fate ~ NestAge + PpnGrass)), nocc = 40, threads = 2, delete = TRUE ) 
+
+
+```
+
+
+Claro, ahora podemos representar los resultados en un gráfico para una interpretación más clara.
+
+
+```{r, echo=FALSE }
+fc <- find.covariates(Model1,mallard)
+fc$value[1:35] <- 1:35
+fc$value[fc$var == "PpnGrass"] <- 0.1 
+design <- fill.covariates(Model1, fc)
+
+AgePpn.survival <- compute.real(Model1, design = design)[1:35, ]
+
+AgePpn.survival <- cbind(design[1:35, c(2:3)], AgePpn.survival)  
+
+colnames(AgePpn.survival) <- c("Age", "PpnGrass","DSR", "seDSR", "lclDSR",
+                              "uclDSR")
+
+library(ggplot2)
+ggplot(AgePpn.survival, aes(x = Age, y = DSR)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = lclDSR, ymax = uclDSR), alpha = 0.3) +
+  xlab("Nest Age (days)") +
+  ylab("Estimated DSR") +
+  theme_bw()
+```
+
+En el curso se detallara cada uno de los pasos para lograr a desarrollar el modelo, su interpretacion y su implementacion en casos reales. 
 
 ![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)

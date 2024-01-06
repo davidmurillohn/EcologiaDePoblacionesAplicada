@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clase6</title>
+<title>Clase 6: Uso de Distance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -45,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase6</h1>
+<h1 class="title">Clase 6: Uso de Distance</h1>
 </div>
 
 
@@ -60,7 +94,97 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>En preparacion…</p>
+<p>En esta clase, aprenderemos a emplear Distance para ajustar modelos de abundancia.</p>
+<p>El paquete Distance en R es una herramienta poderosa para analizar datos de conteos por puntos y transectos en estudios de abundancia de especies. Permite modelar la relación entre la detección de especies y la distancia desde un punto o línea de transecto, considerando la probabilidad de detección a diferentes distancias. Con diversas funciones y métodos estadísticos, este paquete facilita la estimación de abundancia, densidad y otros parámetros clave en la ecología de poblaciones, ayudando a comprender mejor la distribución y el tamaño de las poblaciones de especies.</p>
+<p>Para empezar, necesitamos cargar el paquete Distance</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Distance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'Distance' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mrds</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'mrds' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is mrds 2.3.0
+Built: R 4.3.2; ; 2023-12-31 04:22:40 UTC; windows
+
+**Change to default variance estimator for point transects. The default encounter rate variance estimator for point transects is now 'P2' (changed from 'P3'). See 'Uncertainty' section of ?dht for more information.**
+
+MCDS.exe not detected, single observer analyses will only be run using optimiser in mrds R library. See ?MCDS for details.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Distance'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:mrds':
+
+    create.bins</code></pre>
+</div>
+</div>
+<p>Vamos a cargar la base de datos ya formateada, la cual se basa en la metodología de transecto por línea. Esta base incluye el registro de la distancia a cada individuo observado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(book.tee.data)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>tee.data <span class="ot">&lt;-</span> <span class="fu">subset</span>(book.tee.data<span class="sc">$</span>book.tee.dataframe, observer<span class="sc">==</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vamos a ajustar el modelo basado en la metodología de transectos, utilizando la distancia de observación de cada individuo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ds.model <span class="ot">&lt;-</span> <span class="fu">ds</span>(tee.data, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Starting AIC adjustment term selection.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Fitting half-normal key function</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>AIC= 311.138</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Fitting half-normal key function with cosine(2) adjustments</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>AIC= 313.124</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Half-normal key function selected.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No survey area information supplied, only estimating detection function.</code></pre>
+</div>
+</div>
+<p>Ahora, podemos revisar los resultados y generar un gráfico que muestre la detección.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ds.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Summary for distance analysis 
+Number of observations :  124 
+Distance range         :  0  -  4 
+
+Model       : Half-normal key function 
+AIC         :  311.1385 
+Optimisation:  mrds (nlminb) 
+
+Detection function parameters
+Scale coefficient(s):  
+             estimate         se
+(Intercept) 0.6632435 0.09981249
+
+                       Estimate          SE         CV
+Average p             0.5842744  0.04637627 0.07937412
+N in covered region 212.2290462 20.85130344 0.09824906</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ds.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Clase6_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En el curso se explorarán diversos tipos de modelos, se aprenderá a seleccionar el más adecuado, se abordará su interpretación y se analizará su aplicación en casos reales.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>

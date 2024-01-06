@@ -1,10 +1,33 @@
 ---
-title: "Clase7"
+title: "Clase 7- Uso de Unmarked: Estimación de abundancia por conteo por puntos"
 format: html
 editor: visual
 ---
 
 
-En preparacion...
+Unmarked se destaca como uno de los paquetes más populares para ajustar modelos de abundancia que incorporan variables de detección. A diferencia de Distance, este paquete se caracteriza por su mayor complejidad y una versatilidad notable en la capacidad de ajustar modelos más detallados. Requiere un nivel de conocimiento en R al menos intermedio para aprovechar plenamente su potencial, debido a su complejidad y las múltiples opciones de modelado que ofrece.
+
+En esta clase se obordara como utilizar Unmarked para modelar abundancia de especies para lo cuales se tomaran datos por medio de conteo por puntos. En la clase se explicara desde cero el uso de este paquete y paso a paso como ajustar, seleccionar, validar, interpretar y graficar el modelo, incluso la presancion de los datos para publicaciones cientificas. 
+
+En esta clase, exploraremos el uso de Unmarked para modelar la abundancia de especies a partir de datos recopilados mediante conteo por puntos. Desde los fundamentos, explicaremos paso a paso cómo utilizar este paquete, cubriendo el proceso completo: desde el ajuste inicial del modelo hasta la selección, validación e interpretación de los resultados. También abordaremos la presentación de los datos para su inclusión en publicaciones científicas, asegurando un entendimiento completo y la capacidad de aplicar estos modelos de manera efectiva en contextos de investigación y divulgación científica.
+
+```{r}
+library(unmarked)
+
+data(mallard)
+
+mallardUMF <- unmarkedFramePCount(mallard.y, siteCovs = mallard.site,
+obsCovs = mallard.obs)
+
+(fm.mallard <- pcount(~ ivel+ date + I(date^2) ~ length + elev + forest, mallardUMF, K=30))
+
+(fm.mallard.nb <- pcount(~ date + I(date^2) ~ length + elev, mixture = "NB", mallardUMF, K=30))
+
+```
+
+```{r}
+summary(fm.mallard)
+```
+
 
 ![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)

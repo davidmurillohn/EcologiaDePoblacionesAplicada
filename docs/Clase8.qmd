@@ -1,10 +1,38 @@
 ---
-title: "Clase8"
+title: "Clase 8- Uso de Unmarked: Estimación de abundancia por transecto"
 format: html
 editor: visual
 ---
 
+En esta clase, exploraremos el uso de Unmarked para modelar la abundancia de especies a partir de datos recopilados mediante trasectos. Desde los fundamentos, explicaremos paso a paso cómo utilizar este paquete, cubriendo el proceso completo: desde el ajuste inicial del modelo hasta la selección, validación e interpretación de los resultados. También abordaremos la presentación de los datos para su inclusión en publicaciones científicas, asegurando un entendimiento completo y la capacidad de aplicar estos modelos de manera efectiva en contextos de investigación y divulgación científica.
 
-En preparacion...
+```{r}
+library(unmarked)
+
+data(pointtran)
+
+ptUMF <- with(pointtran, {
+	unmarkedFrameDS(y = cbind(dc1, dc2, dc3, dc4, dc5),
+	siteCovs = data.frame(area, habitat),
+	dist.breaks = seq(0, 25, by=5), survey = "point", unitsIn = "m")
+	})
+
+# Half-normal.
+(fmp1 <- distsamp(~ 1 ~ 1, ptUMF))
+hist(fmp1, ylim=c(0, 0.07), xlab="Distance (m)")
+
+# effective radius
+sig <- exp(coef(fmp1, type="det"))
+ea <- 2*pi * integrate(grhn, 0, 25, sigma=sig)$value # effective area
+sqrt(ea / pi) # effective radius
+
+# detection probability
+ea / (pi*25^2)
+```
+
+```{r}
+summary(fmp1)
+```
+
 
 ![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)

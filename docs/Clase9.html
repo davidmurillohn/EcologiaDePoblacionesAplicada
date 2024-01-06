@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clase9</title>
+<title>Clase 9- Introducción a spAbundance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -45,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase9</h1>
+<h1 class="title">Clase 9- Introducción a spAbundance</h1>
 </div>
 
 
@@ -60,7 +94,122 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>En preparacion…</p>
+<p>El paquete spAbundance ajusta modelos univariados (es decir, de una sola especie) y multivariados (es decir, de múltiples especies) de mezcla espacial N, modelos jerárquicos de muestreo de distancia y modelos mixtos generalizados lineales utilizando cadenas de Markov Monte Carlo (MCMC). Los modelos espaciales se ajustan utilizando Procesos Gaussianos de Vecino más Cercano (NNGPs) para facilitar el ajuste del modelo a grandes conjuntos de datos espaciales. spAbundance utiliza una sintaxis análoga a su “paquete hermano” spOccupancy (Doser et al.&nbsp;2022). A continuación, proporcionamos una introducción muy breve a algunas de las funcionalidades del paquete e ilustramos solo una de las funciones de ajuste del modelo. Para obtener más información, consulta los recursos referenciados al final de esta página y la pestaña “Artículos” en la parte superior de la página.</p>
+<p><a href="https://www.jeffdoser.com/files/spabundance-web/">spAbundance</a></p>
+<p>En esta clase, vamos a explorar el paquete spAbundance y comparar su implementación con los paquetes Distance y Unmarked.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spAbundance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'spAbundance' was built under R version 4.3.2</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Model1 <span class="ot">&lt;-</span> <span class="fu">abund</span>(<span class="at">formula =</span> <span class="sc">~</span> abund.cov<span class="fl">.1</span> <span class="sc">+</span> abund.cov<span class="fl">.2</span> <span class="sc">+</span> abund.cov<span class="fl">.3</span> <span class="sc">+</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                         (<span class="dv">1</span> <span class="sc">|</span> abund.factor<span class="fl">.1</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> data.list, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n.batch =</span> n.batch, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">batch.length =</span> batch.length, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">inits =</span> inits.list, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">tuning =</span> tuning,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">priors =</span> prior.list, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">accept.rate =</span> <span class="fl">0.43</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n.omp.threads =</span> <span class="dv">1</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">verbose =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n.report =</span> <span class="dv">1</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n.burn =</span> n.burn,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n.thin =</span> n.thin,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n.chains =</span> n.chains) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+    Preparing to run the model
+----------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No prior specified for sigma.sq.mu.ig.
+Setting prior shape to 0.1 and prior scale to 0.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>sigma.sq.mu is not specified in initial values.
+Setting initial values to random values between 0.05 and 1</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>----------------------------------------
+    Model description
+----------------------------------------
+Poisson abundance model fit with 225 sites.
+
+Samples per Chain: 125 (5 batches of length 25)
+Burn-in: 0 
+Thinning Rate: 1 
+Number of Chains: 1 
+Total Posterior Samples: 125 
+
+Source compiled with OpenMP support and model fit using 1 thread(s).
+
+Adaptive Metropolis with target acceptance rate: 43.0
+----------------------------------------
+    Chain 1
+----------------------------------------
+Sampling ... 
+Batch: 1 of 5, 20.00%
+    Parameter   Acceptance  Tuning
+    beta[1]     40.0        0.10000
+    beta[2]     28.0        0.09802
+    beta[3]     32.0        0.09802
+    beta[4]     40.0        0.10000
+-------------------------------------------------
+Batch: 2 of 5, 40.00%
+    Parameter   Acceptance  Tuning
+    beta[1]     8.0     0.09900
+    beta[2]     16.0        0.09704
+    beta[3]     44.0        0.09900
+    beta[4]     24.0        0.09900
+-------------------------------------------------
+Batch: 3 of 5, 60.00%
+    Parameter   Acceptance  Tuning
+    beta[1]     16.0        0.09802
+    beta[2]     20.0        0.09608
+    beta[3]     32.0        0.09802
+    beta[4]     24.0        0.09802
+-------------------------------------------------
+Batch: 4 of 5, 80.00%
+    Parameter   Acceptance  Tuning
+    beta[1]     24.0        0.09704
+    beta[2]     16.0        0.09512
+    beta[3]     20.0        0.09704
+    beta[4]     28.0        0.09704
+-------------------------------------------------
+Batch: 5 of 5, 100.00%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+abund(formula = ~abund.cov.1 + abund.cov.2 + abund.cov.3 + (1 | 
+    abund.factor.1), data = data.list, inits = inits.list, priors = prior.list, 
+    tuning = tuning, n.batch = n.batch, batch.length = batch.length, 
+    accept.rate = 0.43, n.omp.threads = 1, verbose = TRUE, n.report = 1, 
+    n.burn = n.burn, n.thin = n.thin, n.chains = n.chains)
+
+Samples per Chain: 125
+Burn-in: 0
+Thinning Rate: 1
+Number of Chains: 1
+Total Posterior Samples: 125
+Run Time (min): 0.0023
+
+Abundance (log scale): 
+               Mean     SD    2.5%     50%   97.5% Rhat ESS
+(Intercept)  0.5845 0.2745  0.2914  0.4465  1.0748   NA   3
+abund.cov.1 -1.1401 0.4094 -1.5384 -1.2679 -0.2137   NA   2
+abund.cov.2  0.2462 0.1147  0.1250  0.1991  0.5210   NA   3
+abund.cov.3 -0.8142 0.1822 -1.0062 -0.8690 -0.2980   NA   4
+
+Abundance Random Effect Variances (log scale): 
+                             Mean     SD  2.5%    50%  97.5% Rhat ESS
+(Intercept)-abund.factor.1 1.6958 0.5268 0.869 1.6671 2.7789   NA  16</code></pre>
+</div>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
